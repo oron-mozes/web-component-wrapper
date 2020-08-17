@@ -46,9 +46,11 @@
             }
         );
     }
-
-    includeHTML();
-    defineCustomElement();
+    async function load () {
+        await includeHTML();
+        defineCustomElement();
+    }
+    load()
     </script>
 </body>
 </html>

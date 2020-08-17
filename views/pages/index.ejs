@@ -10,21 +10,15 @@
 <script>
     const attributeName = "wix-include-html";
     async function includeHTML() {
-        let xhttp;
         const elements = Array.from(document.getElementsByTagName("*")).filter(element => element.hasAttribute(attributeName));
         for await (const element of elements) {
             if(element.hasAttribute(attributeName)) {
-                xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {element.innerHTML = this.responseText;}
-                        if (this.status == 404) {element.innerHTML = "Page not found.";}
-                        element.removeAttribute("wix-include-html");
-                        includeHTML();
-                    }
+                const result = await fetch(element.getAttribute(attributeName))
+                if(result.ok) {
+                    element.innerHTML = await result.json();
+                } else {
+                    element.innerHTML = "Page not found.";
                 }
-                xhttp.open("GET", element.getAttribute(attributeName), true);
-                await xhttp.send();
             }
         }
     }

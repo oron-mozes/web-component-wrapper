@@ -10,14 +10,11 @@
 <script>
     async function includeHTML() {
         var z, i, elmnt, file, xhttp;
-        /* Loop through a collection of all HTML elements: */
         z = document.getElementsByTagName("*");
         for (i = 0; i < z.length; i++) {
             elmnt = z[i];
-            /*search for elements with a certain atrribute:*/
             file = elmnt.getAttribute("wix-include-html");
             if (file) {
-                /* Make an HTTP request using the attribute value as the file name: */
                 xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4) {
@@ -35,8 +32,6 @@
         }
     }
     includeHTML();
-</script>
-<script>
     customElements.define('my-paragraph',
         class extends HTMLElement {
             constructor() {
@@ -50,5 +45,6 @@
         }
     );
 </script>
+<script type="text/javascript" src="https://oron-web-component.herokuapp.com/js/template.js"></script>
 </body>
 </html>

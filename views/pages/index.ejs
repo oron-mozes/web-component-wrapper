@@ -29,12 +29,12 @@
                     }
                 }
                 xhttp.open("GET", file, true);
-                return xhttp.send();
-
+                await xhttp.send();
+                return
             }
         }
     }
-    await includeHTML();
+    includeHTML();
 </script>
 <script type="text/javascript" src="https://oron-web-component.herokuapp.com/js/my-paragraph.js"></script>
 

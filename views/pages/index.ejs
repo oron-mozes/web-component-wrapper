@@ -16,6 +16,7 @@
                 const result = await fetch(element.getAttribute(attributeName))
                 if(result.ok) {
                     element.innerHTML = await result.text();
+                    element.removeAttribute(attributeName)
                 } else {
                     element.innerHTML = "Page not found.";
                 }

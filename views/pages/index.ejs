@@ -15,7 +15,7 @@
             if(element.hasAttribute(attributeName)) {
                 const result = await fetch(element.getAttribute(attributeName))
                 if(result.ok) {
-                    element.innerHTML = await result.json();
+                    element.innerHTML = await result.text();
                 } else {
                     element.innerHTML = "Page not found.";
                 }

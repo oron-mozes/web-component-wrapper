@@ -8,26 +8,23 @@
 <div wix-include-html="https://oron-web-component.herokuapp.com/html/template.html"></div>
 <my-paragraph></my-paragraph>
 <script>
+    const attributeName = "wix-include-html";
     async function includeHTML() {
-        var z, i, elmnt, file, xhttp;
-        z = document.getElementsByTagName("*");
-        for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            file = elmnt.getAttribute("wix-include-html");
-            if (file) {
+        let xhttp;
+        const elements = Array.from(document.getElementsByTagName("*")).filter(element => element.hasAttribute(attributeName));
+        for await (const element of elements) {
+            if(element.hasAttribute(attributeName)) {
                 xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4) {
-                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-                        /* Remove the attribute, and call this function once more: */
-                        elmnt.removeAttribute("wix-include-html");
+                        if (this.status == 200) {element.innerHTML = this.responseText;}
+                        if (this.status == 404) {element.innerHTML = "Page not found.";}
+                        element.removeAttribute("wix-include-html");
                         includeHTML();
                     }
                 }
-                xhttp.open("GET", file, true);
-                await xhttp.send();
-                return
+                xhttp.open("GET", element.getAttribute(attributeName), true);
+                xhttp.send();
             }
         }
     }

@@ -41,9 +41,10 @@
                         templateContent = "Page not found.";
                     }
 
-
+                    const element = document.createElement('div');
+                    element.innerHTML = templateContent;
                     const shadowRoot = this.attachShadow({mode: 'closed'})
-                        .appendChild(templateContent);
+                        .appendChild(element);
                 }
 
             }

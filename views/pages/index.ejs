@@ -5,42 +5,52 @@
 
 <body>
 <h1>Hello Web Component Wrapper!</h1>
-<div wix-include-html="https://oron-web-component.herokuapp.com/html/template.html"></div>
+<!--<div wix-include-html="https://oron-web-component.herokuapp.com/html/template.html"></div>-->
 <my-paragraph></my-paragraph>
 <script>
     const attributeName = "wix-include-html";
-    async function includeHTML() {
-        const elements = Array.from(document.getElementsByTagName("*")).filter(element => element.hasAttribute(attributeName));
-        for await (const element of elements) {
-            if(element.hasAttribute(attributeName)) {
-                const result = await fetch(element.getAttribute(attributeName))
-                if(result.ok) {
-                    element.innerHTML = await result.text();
-                    element.removeAttribute(attributeName)
-                } else {
-                    element.innerHTML = "Page not found.";
-                }
-            }
-        }
-    }
+    // async function includeHTML() {
+    //     const elements = Array.from(document.getElementsByTagName("*")).filter(element => element.hasAttribute(attributeName));
+    //     for await (const element of elements) {
+    //         if(element.hasAttribute(attributeName)) {
+    //             const result = await fetch(element.getAttribute(attributeName))
+    //             if(result.ok) {
+    //                 element.innerHTML = await result.text();
+    //                 element.removeAttribute(attributeName)
+    //             } else {
+    //                 element.innerHTML = "Page not found.";
+    //             }
+    //         }
+    //     }
+    // }
 
     function defineCustomElement() {
         customElements.define('my-paragraph',
             class extends HTMLElement {
                 constructor() {
                     super();
-                    let template = document.getElementById('my-paragraph');
-                    let templateContent = template.content;
+                   this.loadContent();
+                }
+
+                async loadContent () {
+                    const result = await fetch("https://oron-web-component.herokuapp.com/html/template.html")
+                    let templateContent;
+                    if(result.ok) {
+                        templateContent = await result.text();
+                    } else {
+                        templateContent = "Page not found.";
+                    }
+
 
                     const shadowRoot = this.attachShadow({mode: 'closed'})
-                        .appendChild(templateContent.cloneNode(true));
-                    template.dispatchEvent('load');
+                        .appendChild(templateContent);
                 }
+
             }
         );
     }
     async function load () {
-        await includeHTML();
+        // await includeHTML();
         defineCustomElement();
     }
     load()

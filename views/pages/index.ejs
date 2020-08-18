@@ -44,7 +44,7 @@
                     const element = document.createElement('div');
                     element.innerHTML = templateContent;
                     const shadowRoot = this.attachShadow({mode: 'closed'})
-                        .appendChild(element);
+                        .appendChild(element.cloneNode(true));
                 }
 
             }
